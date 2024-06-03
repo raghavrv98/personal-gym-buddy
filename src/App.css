@@ -1,38 +1,326 @@
-.App {
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+.clientDashboard {
+  padding: 10px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcomeTitle {
+  font-size: 24px;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  background-color: #ABC0CD;
+  color: #1F305C;
+  border-radius: 10px;
+}
+
+.performance,
+.excercise,
+.diet {
+  height: 100px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #1F305C;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+.loginContainer {
+  background-image: url("../src/Images/login.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+form input[type="text"] {
+  margin-bottom: 25px;
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  font-size: 28px;
+  padding: 2px;
+  border-radius: 10px;
+}
+
+.formContainer {
+  padding: 50px 20px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.75);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  color: #1F305C;
+  position: relative;
+}
+
+div label {
+  color: white;
+  font-size: 16px;
+}
+
+form input[type="submit"] {
+  background-color: bisque;
+  font-size: 24px;
+  height: 40px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: none;
+  color: #1F305C;
+  width: 100px;
+}
+
+form div:nth-child(3) {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.formContainer .logo {
+  width: 70%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.logoContainer {
+  background-color: white;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  position: absolute;
+  top: -16%;
+  left: 33%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.specificWorkoutContainer {
+  padding: 10px;
+}
+
+.specificWorkoutTypeContainer {
+  overflow: auto;
+  height: 89vh;
+  margin-top: 10px;
+}
+
+.specificWorkoutType:first-child {
+  margin-top: 10px;
+}
+
+.specificWorkoutType {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
+  height: 100px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #1F305C;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.specificWorkoutType img {
+  width: 40%;
+  border-radius: 10px;
+}
+
+.specificWorkoutDetailsContainer {
+  padding: 10px;
+}
+
+.typeTitle {
+  font-size: 24px;
+  padding: 15px;
+  text-align: center;
+  background-color: #ABC0CD;
+  color: #1F305C;
+  border-radius: 10px;
+  display: flex;
+  gap: 80px;
+}
+
+.heading {
+  display: flex;
+  gap: 80px;
+}
+
+.date {
+  font-size: 24px;
+  padding: 15px;
+  text-align: center;
+  background-color: #ABC0CD;
+  color: #1F305C;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.typeTitle .back {
+  text-decoration: none;
+  color: #1F305C;
+}
+
+.detailsContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.detailsContainer img {
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.addSetBtn {
+  font-size: 24px;
+  padding: 15px;
+  text-align: center;
+  background-color: #ABC0CD;
+  color: #1F305C;
+  border-radius: 10px;
+  width: 50%;
+  margin: 0px auto 20px;
+}
+
+.setDetailsContainer {
+  padding: 20px;
+  background-color: #C8B281;
+  color: #1F305C;
+  margin-bottom: 20px;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.repContainer {
+  width: 100%;
+  padding: 10px;
+  background-color: #1F305C;
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.repContainer .setCount {
+  margin-bottom: 20px;
+}
+
+.repCountBox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.repCountDetailsBox {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.minus,
+.plus {
+  background-color: #ABC0CD;
+  height: 35px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width: 35px;
+  border-radius: 50%;
+  font-size: 40px;
+  padding: 2px;
+}
+
+.addRepBtn {
+  font-size: 24px;
+  padding: 15px;
+  text-align: center;
+  background-color: #ABC0CD;
+  color: #1F305C;
+  border-radius: 10px;
+}
+
+.welcomeContainer div {
+  text-align: center;
+}
+
+.welcomeContainer button {
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.welcomeContainer {
+  padding: 150px 50px;
+  background-color: black;
   color: white;
+  height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+.welcomeContainer h1 {
+  text-align: center;
+  font-size: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.welcomeContainer p {
+  font-size: 20px;
+  line-height: 35px;
+  color: red;
+  text-align: center;
+}
+
+.workoutContainer {
+  padding: 10px;
+}
+
+.workoutTypeContainer {
+  overflow: auto;
+  height: 89vh;
+  margin-top: 10px;
+}
+
+.workoutType:first-child {
+  margin-top: 10px;
+}
+
+.workoutType {
+  height: 100px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #1F305C;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  text-decoration: none;
 }
