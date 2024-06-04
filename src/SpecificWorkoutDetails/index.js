@@ -1,6 +1,7 @@
 import moment from "moment";
 import { useEffect, useReducer } from "react";
 import { Link } from "react-router-dom";
+import Loader from "../Loader";
 
 const defaultState = {
   isOpenRepContainer: false,
@@ -8,6 +9,7 @@ const defaultState = {
   excerciseData: [],
   kgCount: 0,
   userDetails: {},
+  loading: true,
 };
 
 const SpecificWorkoutDetails = () => {
@@ -19,31 +21,50 @@ const SpecificWorkoutDetails = () => {
     { ...defaultState }
   );
 
-  const { isOpenRepContainer, repCount, excerciseData, kgCount, userDetails } =
-    state;
+  const {
+    isOpenRepContainer,
+    repCount,
+    excerciseData,
+    kgCount,
+    userDetails,
+    loading,
+  } = state;
+
+  const closeHandler = () => {
+    setState({
+      isOpenRepContainer: false,
+    });
+  };
 
   const addSetSubmitHandler = () => {
+    setState({
+      loading: true,
+    });
     excerciseData.push({
       set: excerciseData?.length + 1,
       rep: repCount,
       kg: kgCount,
     });
 
-    const url = "http://localhost:3001/addExcercise";
+    const url = "https://personal-gym-buddy-backend.onrender.com/addExcerciseData";
 
-    const postData = {
-      excercises: [
-        {
-          name: titleName,
-          displayName: "Bicep 1",
-          id: 1,
-          data: excerciseData,
-          date: moment().valueOf(),
-        },
-      ],
-      cardType: "Workout",
-      pk: "1",
-    };
+    const postDataPrepare = userDetails?.data?.excercises?.find(
+      (val) => val.name === parentName
+    )?.data;
+
+    const currentExcerciseIndex = postDataPrepare?.findIndex(
+      (val) => val.name === titleName
+    );
+
+    const parentExcerciseIndex = userDetails?.data?.excercises?.findIndex(
+      (val) => val.name === parentName
+    );
+
+    userDetails.data.excercises[parentExcerciseIndex].data[
+      currentExcerciseIndex
+    ].data = excerciseData;
+
+    const postData = userDetails?.data;
 
     // Options for the fetch call
     const options = {
@@ -63,21 +84,23 @@ const SpecificWorkoutDetails = () => {
         return response.json();
       })
       .then((val) => {
-        const excerciseData = val?.data?.excercises.find(
+        const excerciseNameObj = val?.data?.excercises.find(
+          (val) => val.name === parentName
+        );
+
+        const excerciseData = excerciseNameObj?.data?.find(
           (val) => val.name === titleName
         )?.data;
+
         setState({
           excerciseData,
+          isOpenRepContainer: false,
+          loading: false,
         });
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-
-    setState({
-      excerciseData,
-      isOpenRepContainer: false,
-    });
   };
 
   const addSetHandler = () => {
@@ -108,23 +131,24 @@ const SpecificWorkoutDetails = () => {
     }
   };
 
-  const heading = () => {
-    return userDetails?.data?.excercises.find((val) => val.name === titleName)
-      ?.displayName;
-  };
-
   useEffect(() => {
-    fetch("http://localhost:3001/user/1")
+    fetch("https://personal-gym-buddy-backend.onrender.com/user/1")
       .then((value) => {
         return value.json();
       })
       .then((val) => {
-        const excerciseData = val?.data?.excercises.find(
+        const excerciseNameObj = val?.data?.excercises.find(
+          (val) => val.name === parentName
+        );
+
+        const excerciseData = excerciseNameObj?.data?.find(
           (val) => val.name === titleName
         )?.data;
+
         setState({
           excerciseData,
           userDetails: val,
+          loading: false,
         });
       });
   }, []);
@@ -136,7 +160,7 @@ const SpecificWorkoutDetails = () => {
           <Link className="back" to={`/workouts/${parentName}`}>
             Back
           </Link>
-          <div>{heading()}</div>
+          <div>{titleName}</div>
         </div>
         <div className="detailsContainer">
           <div>
@@ -155,7 +179,10 @@ const SpecificWorkoutDetails = () => {
           {isOpenRepContainer && (
             <div className="repContainer">
               <div className="setCount">
-                Set Count - {excerciseData?.length + 1}
+                <div>Set Count - {excerciseData?.length + 1}</div>
+                <div onClick={closeHandler} className="close">
+                  X
+                </div>
               </div>
               <div className="repCountBox">
                 <div>Rep Count</div>
@@ -203,15 +230,19 @@ const SpecificWorkoutDetails = () => {
               </div>
             </div>
           )}
-          {excerciseData?.map((val, index) => {
-            return (
-              <div key={index} className="setDetailsContainer">
-                <div>Set - {val?.set}</div>
-                <div>Rep - {val?.rep}</div>
-                <div>Kg - {val?.kg}</div>
-              </div>
-            );
-          })}
+          {loading ? (
+            <Loader />
+          ) : (
+            excerciseData?.map((val, index) => {
+              return (
+                <div key={index} className="setDetailsContainer">
+                  <div>Set - {val?.set}</div>
+                  <div>Rep - {val?.rep}</div>
+                  <div>Kg - {val?.kg}</div>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </>

@@ -50,7 +50,7 @@
   position: relative;
 }
 
-form input[type="text"] {
+.loginContainer form input[type="text"] {
   margin-bottom: 25px;
   width: 100%;
   height: 50px;
@@ -90,7 +90,7 @@ form input[type="submit"] {
   width: 100px;
 }
 
-form div:nth-child(3) {
+.loginContainer form div:nth-child(3) {
   text-align: center;
 }
 
@@ -205,6 +205,17 @@ form div:nth-child(3) {
   margin: 0px auto 20px;
 }
 
+.addExcerciseBtn {
+  font-size: 24px;
+  padding: 15px;
+  text-align: center;
+  background-color: #ABC0CD;
+  color: #1F305C;
+  border-radius: 10px;
+  width: 100%;
+  margin: 20px auto 10px;
+}
+
 .setDetailsContainer {
   padding: 20px;
   background-color: #C8B281;
@@ -230,6 +241,8 @@ form div:nth-child(3) {
 .repContainer .setCount {
   margin-bottom: 20px;
   text-align: center;
+  display: flex;
+  justify-content: space-between;
 }
 
 .repCountBox {
@@ -246,7 +259,8 @@ form div:nth-child(3) {
 }
 
 .minus,
-.plus {
+.plus,
+.close {
   background-color: #ABC0CD;
   height: 35px;
   display: flex;
@@ -256,6 +270,11 @@ form div:nth-child(3) {
   border-radius: 50%;
   font-size: 40px;
   padding: 2px;
+}
+
+.close {
+  font-size: 25px;
+  border-radius: 10px;
 }
 
 .addRepBtn {
@@ -323,4 +342,64 @@ form div:nth-child(3) {
   font-size: 20px;
   cursor: pointer;
   text-decoration: none;
+}
+
+.excerciseForm {
+  background-color: #1F305C;
+  color: white;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.inputStyle {
+  margin-bottom: 20px;
+}
+
+.inputStyle p {
+  margin-bottom: 10px;
+}
+
+input {
+  height: 100%;
+  font-size: 20px;
+  padding: 5px;
+  width: 100%;
+}
+
+.excerciseCloseForm {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 25px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.loaderContainer {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
