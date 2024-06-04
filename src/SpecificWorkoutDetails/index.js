@@ -1,10 +1,13 @@
-import { useReducer } from "react";
+import moment from "moment";
+import { useEffect, useReducer } from "react";
 import { Link } from "react-router-dom";
 
 const defaultState = {
-  setDetails: [],
   isOpenRepContainer: false,
   repCount: 0,
+  excerciseData: [],
+  kgCount: 0,
+  userDetails: {},
 };
 
 const SpecificWorkoutDetails = () => {
@@ -16,27 +19,35 @@ const SpecificWorkoutDetails = () => {
     { ...defaultState }
   );
 
-  const { setDetails, isOpenRepContainer, repCount } = state;
+  const { isOpenRepContainer, repCount, excerciseData, kgCount, userDetails } =
+    state;
 
   const addSetSubmitHandler = () => {
-    let setDetailsNew = JSON.parse(JSON.stringify(setDetails));
-    setDetailsNew.push({
-      setCount: setDetailsNew?.length + 1,
+    excerciseData.push({
+      set: excerciseData?.length + 1,
       rep: repCount,
+      kg: kgCount,
     });
 
     const url = "http://localhost:3001/addExcercise";
 
     const postData = {
-      excercises: ["Push-ups", "Sit-ups", "Running"],
+      excercises: [
+        {
+          name: titleName,
+          displayName: "Bicep 1",
+          id: 1,
+          data: excerciseData,
+          date: moment().valueOf(),
+        },
+      ],
       cardType: "Workout",
-      date: new Date(), // or you can specify a custom date
       pk: "1",
     };
 
     // Options for the fetch call
     const options = {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -44,23 +55,27 @@ const SpecificWorkoutDetails = () => {
     };
 
     // Making the POST request
-    // fetch(url, options)
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok " + response.statusText);
-    //     }
-    //     console.log("response: ", response.json());
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log("Success:", data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
+    fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then((val) => {
+        const excerciseData = val?.data?.excercises.find(
+          (val) => val.name === titleName
+        )?.data;
+        setState({
+          excerciseData,
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
 
     setState({
-      setDetails: setDetailsNew,
+      excerciseData,
       isOpenRepContainer: false,
     });
   };
@@ -81,6 +96,39 @@ const SpecificWorkoutDetails = () => {
     }
   };
 
+  const kgCountChangeHandler = (type) => {
+    if (type === "add") {
+      setState({
+        kgCount: kgCount + 1,
+      });
+    } else {
+      setState({
+        kgCount: kgCount - 1,
+      });
+    }
+  };
+
+  const heading = () => {
+    return userDetails?.data?.excercises.find((val) => val.name === titleName)
+      ?.displayName;
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:3001/user/1")
+      .then((value) => {
+        return value.json();
+      })
+      .then((val) => {
+        const excerciseData = val?.data?.excercises.find(
+          (val) => val.name === titleName
+        )?.data;
+        setState({
+          excerciseData,
+          userDetails: val,
+        });
+      });
+  }, []);
+
   return (
     <>
       <div className="specificWorkoutDetailsContainer">
@@ -88,7 +136,7 @@ const SpecificWorkoutDetails = () => {
           <Link className="back" to={`/workouts/${parentName}`}>
             Back
           </Link>
-          <div>{titleName}</div>
+          <div>{heading()}</div>
         </div>
         <div className="detailsContainer">
           <div>
@@ -107,7 +155,7 @@ const SpecificWorkoutDetails = () => {
           {isOpenRepContainer && (
             <div className="repContainer">
               <div className="setCount">
-                Set Count - {setDetails?.length + 1}
+                Set Count - {excerciseData?.length + 1}
               </div>
               <div className="repCountBox">
                 <div>Rep Count</div>
@@ -129,16 +177,38 @@ const SpecificWorkoutDetails = () => {
                   </div>
                 </div>
               </div>
+              {/* <div className="kgCountBox">Kg = 5</div> */}
+              <div className="repCountBox">
+                <div>Weight (Kg)</div>
+                <div className="repCountDetailsBox">
+                  <div
+                    className="minus"
+                    onClick={
+                      kgCount >= 1 ? () => kgCountChangeHandler("sub") : null
+                    }
+                  >
+                    -{/* <i class="ri-indeterminate-circle-line"></i> */}
+                  </div>
+                  <div className="repCount">{kgCount}</div>
+                  <div
+                    className="plus"
+                    onClick={() => kgCountChangeHandler("add")}
+                  >
+                    {/* <i class="ri-add-circle-line"></i> */}+
+                  </div>
+                </div>
+              </div>
               <div className="addRepBtn" onClick={addSetSubmitHandler}>
                 Add Rep
               </div>
             </div>
           )}
-          {setDetails?.map((val) => {
+          {excerciseData?.map((val, index) => {
             return (
-              <div className="setDetailsContainer">
-                <div>Set - {val?.setCount}</div>
+              <div key={index} className="setDetailsContainer">
+                <div>Set - {val?.set}</div>
                 <div>Rep - {val?.rep}</div>
+                <div>Kg - {val?.kg}</div>
               </div>
             );
           })}

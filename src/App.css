@@ -184,7 +184,6 @@ form div:nth-child(3) {
 
 .detailsContainer {
   margin-top: 20px;
-  text-align: center;
 }
 
 .detailsContainer img {
@@ -230,6 +229,7 @@ form div:nth-child(3) {
 
 .repContainer .setCount {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .repCountBox {
