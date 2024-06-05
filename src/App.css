@@ -118,7 +118,7 @@ form input[type="submit"] {
 
 .specificWorkoutTypeContainer {
   overflow: auto;
-  height: 89vh;
+  height: 78vh;
   margin-top: 10px;
 }
 
@@ -322,7 +322,7 @@ form input[type="submit"] {
 
 .workoutTypeContainer {
   overflow: auto;
-  height: 89vh;
+  height: 78vh;
   margin-top: 10px;
 }
 

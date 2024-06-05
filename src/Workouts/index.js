@@ -13,6 +13,9 @@ const Workouts = () => {
           <div>Workouts</div>
         </div>
         <div className="workoutTypeContainer">
+          <Link className="workoutType center" to={`/workouts/${"Warmup"}`}>
+            Warmup
+          </Link>
           <Link className="workoutType center" to={`/workouts/${"biceps"}`}>
             Biceps
           </Link>

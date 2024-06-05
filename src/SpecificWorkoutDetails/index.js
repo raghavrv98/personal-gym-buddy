@@ -10,6 +10,7 @@ const defaultState = {
   kgCount: 0,
   userDetails: {},
   loading: true,
+  excerciseDataTodayData: {},
 };
 
 const SpecificWorkoutDetails = () => {
@@ -28,6 +29,7 @@ const SpecificWorkoutDetails = () => {
     kgCount,
     userDetails,
     loading,
+    excerciseDataTodayData,
   } = state;
 
   const closeHandler = () => {
@@ -40,6 +42,7 @@ const SpecificWorkoutDetails = () => {
     setState({
       loading: true,
     });
+
     excerciseData.push({
       set: excerciseData?.length + 1,
       rep: repCount,
@@ -62,7 +65,13 @@ const SpecificWorkoutDetails = () => {
 
     userDetails.data.excercises[parentExcerciseIndex].data[
       currentExcerciseIndex
-    ].data = excerciseData;
+    ].data = [
+      {
+        timeStamp: moment().valueOf(),
+        data: excerciseData,
+        date: moment().format("DDMMYYYY"),
+      },
+    ];
 
     const postData = userDetails?.data;
 
@@ -88,9 +97,16 @@ const SpecificWorkoutDetails = () => {
           (val) => val.name === parentName
         );
 
-        const excerciseData = excerciseNameObj?.data?.find(
+        const excerciseDataArr = excerciseNameObj?.data?.find(
           (val) => val.name === titleName
         )?.data;
+
+        const excerciseDataTodayData =
+          excerciseDataArr?.find(
+            (val) => val.date === moment().format("DDMMYYYY")
+          ) || {};
+
+        const excerciseData = excerciseDataTodayData?.data || [];
 
         setState({
           excerciseData,
@@ -141,14 +157,22 @@ const SpecificWorkoutDetails = () => {
           (val) => val.name === parentName
         );
 
-        const excerciseData = excerciseNameObj?.data?.find(
+        const excerciseDataArr = excerciseNameObj?.data?.find(
           (val) => val.name === titleName
         )?.data;
+
+        const excerciseDataTodayData =
+          excerciseDataArr?.find(
+            (val) => val.date === moment().format("DDMMYYYY")
+          ) || {};
+
+        const excerciseData = excerciseDataTodayData?.data || [];
 
         setState({
           excerciseData,
           userDetails: val,
           loading: false,
+          excerciseDataTodayData,
         });
       });
   }, []);
