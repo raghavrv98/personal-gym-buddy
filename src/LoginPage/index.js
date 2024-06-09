@@ -3,10 +3,12 @@ import logo from "../Images/logo.png";
 import { useReducer } from "react";
 import { bodyParts } from "../constants";
 import moment from "moment";
+import Loader from "../Loader";
 
 const defaultState = {
   isLogin: true,
   payload: { name: "", mobileNumber: "", password: "" },
+  loading: false,
 };
 
 const Login = () => {
@@ -17,10 +19,12 @@ const Login = () => {
     { ...defaultState }
   );
 
-  const { isLogin, payload } = state;
+  const { isLogin, payload, loading } = state;
 
   const signupSubmitHandler = (event) => {
     event.preventDefault();
+
+    if (loading) return;
 
     setState({
       loading: true,
@@ -83,6 +87,8 @@ const Login = () => {
   const loginSubmitHandler = (event) => {
     event.preventDefault();
 
+    if (loading) return;
+
     setState({
       loading: true,
     });
@@ -136,6 +142,7 @@ const Login = () => {
     <div className="loginContainer">
       {isLogin ? (
         <div className="formContainer">
+          {loading ? <Loader /> : ""}
           <div className="logoContainer">
             <img className="logo" alt="logo" src={logo} />
           </div>
@@ -147,6 +154,7 @@ const Login = () => {
                 onChange={onChangeHandler}
                 type="text"
                 id="mobileNumber"
+                required
               />
             </div>
             <div>
@@ -156,6 +164,7 @@ const Login = () => {
                 onChange={onChangeHandler}
                 type="password"
                 id="password"
+                required
               />
             </div>
             <div className="centerAlign">
@@ -177,6 +186,7 @@ const Login = () => {
         </div>
       ) : (
         <div className="formContainer">
+          {loading ? <Loader /> : ""}
           <div className="logoContainer">
             <img className="logo" alt="logo" src={logo} />
           </div>
@@ -188,6 +198,7 @@ const Login = () => {
                 onChange={onChangeHandler}
                 type="text"
                 id="name"
+                required
               />
             </div>
             <div>
@@ -197,6 +208,7 @@ const Login = () => {
                 onChange={onChangeHandler}
                 type="text"
                 id="mobileNumber"
+                required
               />
             </div>
             <div>
@@ -206,6 +218,7 @@ const Login = () => {
                 onChange={onChangeHandler}
                 type="password"
                 id="password"
+                required
               />
             </div>
             <div className="centerAlign">

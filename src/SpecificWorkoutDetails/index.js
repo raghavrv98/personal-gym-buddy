@@ -15,8 +15,9 @@ const defaultState = {
   currentDateInfo: {},
 };
 
-const titleName = window.location.pathname.split("/")[2];
 const SpecificWorkoutDetails = () => {
+  
+  const titleName = window.location.pathname.split("/")[2];
   const bodyPartName = window.location.pathname.split("/")[3];
   const excerciseName = window.location.pathname.split("/")[4];
 
@@ -74,14 +75,14 @@ const SpecificWorkoutDetails = () => {
     const user = JSON.parse(userData);
 
     const bodyParts = user?.userData?.find((val) => val.name === titleName)
-      ?.data?.bodyParts;
+    ?.data?.bodyParts;
 
     const bodypartDetails = bodyParts?.find((val) => val.name === bodyPartName);
 
     const excerciseDetails = bodypartDetails?.bodypartExcercises?.find(
       (val) => val.name === excerciseName
     );
-
+    
     const currentDateInfo =
       excerciseDetails?.excerciseData?.find(
         (val) => val.id === moment().format("DDMMYYYY")
