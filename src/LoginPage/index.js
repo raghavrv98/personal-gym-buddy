@@ -1,34 +1,238 @@
 import { useNavigate } from "react-router-dom";
 import logo from "../Images/logo.png";
+import { useReducer } from "react";
+import { bodyParts } from "../constants";
+import moment from "moment";
+
+const defaultState = {
+  isLogin: true,
+  payload: { name: "", mobileNumber: "", password: "" },
+};
 
 const Login = () => {
   const navigate = useNavigate();
 
+  const [state, setState] = useReducer(
+    (previousState, nextState) => ({ ...previousState, ...nextState }),
+    { ...defaultState }
+  );
+
+  const { isLogin, payload } = state;
+
+  const signupSubmitHandler = (event) => {
+    event.preventDefault();
+
+    setState({
+      loading: true,
+    });
+    const url = `${window.API_URL}/createClient`;
+
+    const postData = {
+      date: moment().valueOf(),
+      userData: [
+        {
+          name: "workouts",
+          displayName: "Workouts",
+          data: {
+            bodyParts,
+          },
+        },
+        {
+          name: "diet",
+          displayName: "Diet",
+          data: {},
+        },
+        {
+          name: "performance",
+          displayName: "Performance",
+          data: {},
+        },
+      ],
+      name: payload.name,
+      mobileNumber: payload.mobileNumber,
+      password: payload.password,
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    };
+
+    fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then((val) => {
+        if (!val?.data?.isClientExist) {
+          localStorage.setItem("user", JSON.stringify(val?.data));
+          navigate("/clientDashboard");
+        }
+        alert(val?.msg);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   const loginSubmitHandler = (event) => {
     event.preventDefault();
-    navigate("/clientDashboard");
+
+    setState({
+      loading: true,
+    });
+
+    const url = `${window.API_URL}/loginClient`;
+
+    const postData = {
+      mobileNumber: payload.mobileNumber,
+      password: payload.password,
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    };
+
+    fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then((val) => {
+        if (!val?.data?.isClientDataIncorrect) {
+          localStorage.setItem("user", JSON.stringify(val?.data));
+          navigate("/clientDashboard");
+        }
+        alert(val?.msg);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const onChangeHandler = (event) => {
+    event.preventDefault();
+    let value = event.target.value;
+    let id = event.target.id;
+    let payloadNew = {
+      ...payload,
+      [id]: value,
+    };
+    setState({ payload: payloadNew });
   };
 
   return (
     <div className="loginContainer">
-      <div className="formContainer">
-        <div className="logoContainer">
-          <img className="logo" alt="logo" src={logo} />
+      {isLogin ? (
+        <div className="formContainer">
+          <div className="logoContainer">
+            <img className="logo" alt="logo" src={logo} />
+          </div>
+          <form onSubmit={loginSubmitHandler}>
+            <div>
+              <label>Mobile Number</label>
+              <input
+                value={payload["mobileNumber"]}
+                onChange={onChangeHandler}
+                type="text"
+                id="mobileNumber"
+              />
+            </div>
+            <div>
+              <label>Password</label>
+              <input
+                value={payload["password"]}
+                onChange={onChangeHandler}
+                type="password"
+                id="password"
+              />
+            </div>
+            <div className="centerAlign">
+              <input type="submit" />
+            </div>
+            <div className="signup">
+              <span
+                onClick={() => {
+                  setState({
+                    isLogin: false,
+                    payload: { name: "", mobileNumber: "", password: "" },
+                  });
+                }}
+              >
+                Signup
+              </span>
+            </div>
+          </form>
         </div>
-        <form onSubmit={loginSubmitHandler}>
-          <div>
-            <label>Mobile Number</label>
-            <input type="text" id="mobileNumber" />
+      ) : (
+        <div className="formContainer">
+          <div className="logoContainer">
+            <img className="logo" alt="logo" src={logo} />
           </div>
-          <div>
-            <label>Password</label>
-            <input type="text" id="password" />
-          </div>
-          <div>
-            <input type="submit" />
-          </div>
-        </form>
-      </div>
+          <form onSubmit={signupSubmitHandler}>
+            <div>
+              <label>Name</label>
+              <input
+                value={payload["name"]}
+                onChange={onChangeHandler}
+                type="text"
+                id="name"
+              />
+            </div>
+            <div>
+              <label>Mobile Number</label>
+              <input
+                value={payload["mobileNumber"]}
+                onChange={onChangeHandler}
+                type="text"
+                id="mobileNumber"
+              />
+            </div>
+            <div>
+              <label>Password</label>
+              <input
+                value={payload["password"]}
+                onChange={onChangeHandler}
+                type="password"
+                id="password"
+              />
+            </div>
+            <div className="centerAlign">
+              <input type="submit" />
+            </div>
+            <div
+              onClick={() => {
+                setState({
+                  isLogin: true,
+                  payload: { name: "", mobileNumber: "", password: "" },
+                });
+              }}
+              className="signup"
+            >
+              <span
+                onClick={() => {
+                  setState({
+                    isLogin: false,
+                  });
+                }}
+              >
+                Login
+              </span>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

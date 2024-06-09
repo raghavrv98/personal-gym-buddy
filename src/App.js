@@ -6,6 +6,8 @@ import Workouts from "./Workouts";
 import SpecificWorkout from "./SpecificWorkout";
 import SpecificWorkoutDetails from "./SpecificWorkoutDetails";
 import "./App.css";
+import Performance from "./Performance";
+import Diet from "./Diet";
 
 function App() {
   return (
@@ -14,10 +16,15 @@ function App() {
         <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/clientDashboard" element={<ClientDashboard />} />
-        <Route path="/workouts" element={<Workouts />} />
-        <Route path="/workouts/:id" element={<SpecificWorkout />} />
+        <Route path="/clientDashboard/performance" element={<Performance />} />
+        <Route path="/clientDashboard/diet" element={<Diet />} />
+        <Route path="/clientDashboard/workouts" element={<Workouts />} />
         <Route
-          path="/workouts/:id/:name"
+          path="/clientDashboard/workouts/:id"
+          element={<SpecificWorkout />}
+        />
+        <Route
+          path="/clientDashboard/workouts/:id/:name"
           element={<SpecificWorkoutDetails />}
         />
       </Routes>
