@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../Images/logo.png";
+import logo from "./Images/logo.png";
 import { useReducer } from "react";
-import { bodyParts } from "../constants";
+import { bodyParts } from "./constants";
 import moment from "moment";
-import Loader from "../Loader";
+import Loader from "./Loader";
 
 const defaultState = {
   isLogin: true,

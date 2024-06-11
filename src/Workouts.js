@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useReducer } from "react";
-import Header from "../Header";
-import Loader from "../Loader";
+import Header from "./Header";
+import Loader from "./Loader";
 
 const defaultState = {
   bodyParts: [],
@@ -49,7 +49,7 @@ const Workouts = () => {
           {loading ? (
             <Loader />
           ) : (
-            bodyParts.map((bodypart, index) => {
+            bodyParts?.map((bodypart, index) => {
               return (
                 <Link key={index} className="workoutType center" to={`${bodypart.name}`}>
                   {bodypart.displayName}

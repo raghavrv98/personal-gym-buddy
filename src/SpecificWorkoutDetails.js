@@ -1,9 +1,9 @@
 import moment from "moment";
 import { useEffect, useReducer } from "react";
 import { Link } from "react-router-dom";
-import Loader from "../Loader";
-import Header from "../Header";
-import NoDataFound from "../NoDataFound";
+import Loader from "./Loader";
+import Header from "./Header";
+import NoDataFound from "./NoDataFound";
 
 const defaultState = {
   loading: true,

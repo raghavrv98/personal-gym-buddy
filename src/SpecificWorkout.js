@@ -1,8 +1,8 @@
 import { useEffect, useReducer } from "react";
 import { Link } from "react-router-dom";
-import Loader from "../Loader";
-import NoDataFound from "../NoDataFound";
-import Header from "../Header";
+import Loader from "./Loader";
+import NoDataFound from "./NoDataFound";
+import Header from "./Header";
 
 const defaultState = {
   loading: true,
