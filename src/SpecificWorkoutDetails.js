@@ -13,10 +13,10 @@ const defaultState = {
   kgCount: 0,
   user: {},
   currentDateInfo: {},
+  bodypartDetails: {},
 };
 
 const SpecificWorkoutDetails = () => {
-  
   const titleName = window.location.pathname.split("/")[2];
   const bodyPartName = window.location.pathname.split("/")[3];
   const excerciseName = window.location.pathname.split("/")[4];
@@ -34,6 +34,7 @@ const SpecificWorkoutDetails = () => {
     kgCount,
     user,
     currentDateInfo,
+    bodypartDetails,
   } = state;
 
   const closeHandler = () => {
@@ -75,14 +76,14 @@ const SpecificWorkoutDetails = () => {
     const user = JSON.parse(userData);
 
     const bodyParts = user?.userData?.find((val) => val.name === titleName)
-    ?.data?.bodyParts;
+      ?.data?.bodyParts;
 
     const bodypartDetails = bodyParts?.find((val) => val.name === bodyPartName);
 
     const excerciseDetails = bodypartDetails?.bodypartExcercises?.find(
       (val) => val.name === excerciseName
     );
-    
+
     const currentDateInfo =
       excerciseDetails?.excerciseData?.find(
         (val) => val.id === moment().format("DDMMYYYY")
@@ -93,15 +94,16 @@ const SpecificWorkoutDetails = () => {
       user,
       loading: false,
       currentDateInfo,
+      bodypartDetails,
     });
   };
 
   const addSetSubmitHandler = (event) => {
     event.preventDefault();
 
-    setState({
-      loading: true,
-    });
+    // setState({
+    //   loading: true,
+    // });
 
     const url = `${window.API_URL}/updateClientDetails`;
 
@@ -136,6 +138,75 @@ const SpecificWorkoutDetails = () => {
         ...payload,
       });
     }
+
+    const performanceObj = user.userData?.find(
+      (val) => val.name === "performance"
+    );
+
+    const performanceCurrentDateInfo = performanceObj?.performanceData?.find(
+      (val) => val.dateId === moment().format("DDMMYYYY")
+    );
+    if (performanceCurrentDateInfo) {
+      const currentExcerciseData =
+        performanceCurrentDateInfo?.excerciseData?.find(
+          (val) => val.name === excerciseName
+        );
+      if (currentExcerciseData) {
+        if (currentExcerciseData?.setData) {
+          currentExcerciseData.setData.push(payload?.setData[0]);
+        } else {
+          currentExcerciseData.setData = [payload?.setData[0]];
+        }
+      } else {
+        performanceCurrentDateInfo?.excerciseData.push({
+          bodyPartName: bodypartDetails?.name,
+          bodyPartDisplayName: bodypartDetails?.displayName,
+          name: excerciseName,
+          displayName: excerciseDetails?.displayName,
+          img: excerciseDetails?.img,
+          setData: [payload?.setData[0]],
+        });
+      }
+    } else {
+      if (performanceObj?.performanceData.length > 0) {
+        performanceObj?.performanceData.push({
+          dateId: moment().format("DDMMYYYY"),
+          timeStamp: moment().valueOf(),
+          excerciseData: [
+            {
+              bodyPartName: bodypartDetails?.name,
+              bodyPartDisplayName: bodypartDetails?.displayName,
+              name: excerciseName,
+              displayName: excerciseDetails?.displayName,
+              img: excerciseDetails?.img,
+              setData: [payload?.setData[0]],
+            },
+          ],
+        });
+      } else {
+        performanceObj.performanceData = [
+          {
+            dateId: moment().format("DDMMYYYY"),
+            timeStamp: moment().valueOf(),
+            excerciseData: [
+              {
+                bodyPartName: bodypartDetails?.name,
+                bodyPartDisplayName: bodypartDetails?.displayName,
+                name: excerciseName,
+                displayName: excerciseDetails?.displayName,
+                img: excerciseDetails?.img,
+                setData: [payload?.setData[0]],
+              },
+            ],
+          },
+        ];
+      }
+    }
+
+    const dbPerformanceDataIndex = user?.userData?.findIndex(
+      (val) => val.name === "performance"
+    );
+    user.userData[dbPerformanceDataIndex] = performanceObj;
 
     const postData = {
       ...user,

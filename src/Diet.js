@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Header from "./Header";
+import NoDataFound from "./NoDataFound";
 
 const Diet = () => {
   return (
@@ -11,7 +12,7 @@ const Diet = () => {
         </Link>
         <div>Diet</div>
       </div>
-      <div className="dietContainer">Diet Page is coming soon...</div>
+      <NoDataFound text={"No Data Available..."} />
     </div>
   );
 };

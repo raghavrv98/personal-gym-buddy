@@ -44,12 +44,12 @@ const Login = () => {
         {
           name: "diet",
           displayName: "Diet",
-          data: {},
+          data: [],
         },
         {
           name: "performance",
           displayName: "Performance",
-          data: {},
+          performanceData: [],
         },
       ],
       name: payload.name,

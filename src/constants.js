@@ -14,7 +14,14 @@ export const bodyParts = [
   {
     name: "chest",
     displayName: "Chest",
-    bodypartExcercises: [],
+    bodypartExcercises: [
+      {
+        name: "benchPress",
+        displayName: "Bench Press",
+        img: "https://greatgainz.weebly.com/uploads/2/1/1/2/21126266/669596161.jpg",
+        excerciseData: [],
+      },
+    ],
     img: "https://www.bodybuilding.com/images/2017/december/built-by-science-article-graphics-chest-1-700xh.jpg",
   },
   {
@@ -24,6 +31,12 @@ export const bodyParts = [
       {
         name: "dumbellCurl",
         displayName: "Dumbell Curl",
+        img: "https://greatgainz.weebly.com/uploads/2/1/1/2/21126266/669596161.jpg",
+        excerciseData: [],
+      },
+      {
+        name: "preachCurl",
+        displayName: "Preach Curl",
         img: "https://greatgainz.weebly.com/uploads/2/1/1/2/21126266/669596161.jpg",
         excerciseData: [],
       },
