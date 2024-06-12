@@ -78,9 +78,15 @@ const Login = () => {
           navigate("/clientDashboard");
         }
         alert(val?.msg);
+        setState({
+          loading: false,
+        });
       })
       .catch((error) => {
         console.error("Error:", error);
+        setState({
+          loading: false,
+        });
       });
   };
 
@@ -121,9 +127,15 @@ const Login = () => {
           navigate("/clientDashboard");
         }
         alert(val?.msg);
+        setState({
+          loading: false,
+        });
       })
       .catch((error) => {
         console.error("Error:", error);
+        setState({
+          loading: false,
+        });
       });
   };
 

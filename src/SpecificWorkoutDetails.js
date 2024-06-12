@@ -266,9 +266,7 @@ const SpecificWorkoutDetails = () => {
           <div>
             <img
               alt="workout"
-              src={
-                "https://cdn.shopify.com/s/files/1/2384/0833/files/inner-bicep-curl-benefits.jpg?v=1689192787"
-              }
+              src={excerciseDetails?.img}
             />
           </div>
 

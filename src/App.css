@@ -125,7 +125,8 @@ form input[type="submit"] {
 }
 
 .specificWorkoutTypeContainer .name {
-  margin-left: 20px;
+  margin: 0px 10px;
+  text-align: left;
 }
 
 .specificWorkoutType:first-child {
@@ -150,7 +151,6 @@ form input[type="submit"] {
 
 .specificWorkoutType img,
 .workoutTypeContainer img {
-  width: 40%;
   border-radius: 10px;
   height: 100%;
 }
@@ -167,7 +167,7 @@ form input[type="submit"] {
   color: #1F305C;
   border-radius: 10px;
   display: flex;
-  gap: 80px;
+  justify-content: space-between;
   margin-top: 10px;
 }
 

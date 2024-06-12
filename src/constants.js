@@ -1,3 +1,5 @@
+import { BicepExcerciseData } from "./ExcerciseBodyPartConstants/bicepExcerciseConstants";
+
 export const bodyParts = [
   {
     name: "warmup",
@@ -14,33 +16,13 @@ export const bodyParts = [
   {
     name: "chest",
     displayName: "Chest",
-    bodypartExcercises: [
-      {
-        name: "benchPress",
-        displayName: "Bench Press",
-        img: "https://greatgainz.weebly.com/uploads/2/1/1/2/21126266/669596161.jpg",
-        excerciseData: [],
-      },
-    ],
+    bodypartExcercises: [],
     img: "https://www.bodybuilding.com/images/2017/december/built-by-science-article-graphics-chest-1-700xh.jpg",
   },
   {
     name: "biceps",
     displayName: "Biceps",
-    bodypartExcercises: [
-      {
-        name: "dumbellCurl",
-        displayName: "Dumbell Curl",
-        img: "https://greatgainz.weebly.com/uploads/2/1/1/2/21126266/669596161.jpg",
-        excerciseData: [],
-      },
-      {
-        name: "preachCurl",
-        displayName: "Preach Curl",
-        img: "https://greatgainz.weebly.com/uploads/2/1/1/2/21126266/669596161.jpg",
-        excerciseData: [],
-      },
-    ],
+    bodypartExcercises: BicepExcerciseData,
     img: "https://www.bodybuilding.com/images/2017/december/built-by-science-article-graphics-arms-1-700xh.jpg",
   },
   {
